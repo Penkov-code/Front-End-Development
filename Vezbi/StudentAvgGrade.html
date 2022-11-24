@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        table, th, td {
+            border-collapse: collapse;
+            border: 2px solid black;
+            padding: 7px;
+        }
+      body {
+        background-color: gray;
+      }
+      #revert {
+        float: right;
+      }
+      ul{
+        margin-top:75px;
+        float: right;
+      }
+      h1,ul {
+        display: inline-block;
+      }
+      table {
+        border-radius: 1cm;
+        border-top: 1cm;
+        border-color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1 id="details">Details</h1>
+      <h1 id="revert">Revert History</h1>
+        <ul id="lista">
+        </ul>
+      <p>Name: <input type="text" id="name" /></p>
+      <p>Index: <input type="text" id="index" /></p>
+      <p>Phone: <input type="text" id="phone" /></p>
+      <p>
+        Grade: <input type="radio" value="5" checked name="rad"/> 5
+        <input type="radio" value="6" name="rad"/> 6 <input type="radio" value="7" name="rad"/> 7
+        <input type="radio" value="8" name="rad"/> 8 <input type="radio" value="9" name="rad"/> 9
+        <input type="radio" value="10" name="rad"/> 10
+      </p>
+      <p>
+        Session
+        <select name="" id="selection">
+          <option value="January" selected>January</option>
+          <option value="June">June</option>
+          <option value="September">September</option>
+        </select>
+      </p>
+      <button type="button" onclick="importStudent()">Import Student</button>
+
+      <h2>
+        Students (average grade:<p id="avg">0.0</p>)
+      </h2>
+      <table id="contains">
+        <thead>
+          <th>Name</th>
+          <th>Index</th>
+          <th>Phone</th>
+          <th>Grade</th>
+          <th>Session</th>
+          <th>Action</th>
+          <tbody>
+
+          </tbody>
+        </thead>
+      </table>
+    </div>
+    <script>
+      function checkIfFilled(name, index, phone) {
+        if (name == "" || index == "" || phone == "") {
+          return false;
+        }
+        else{
+            return true;
+        }
+      }
+      function updateAvgGrade() {
+        var firstCells = document.querySelectorAll('td:nth-child(4)');
+        var cellValues = [];
+        var zbir = 0;
+        firstCells.forEach(function(singleCell) {
+        cellValues.push(singleCell.innerText);
+        zbir=0;
+        for(var i=0;i<cellValues.length;i++){
+            zbir = zbir + parseInt(cellValues[i]);
+        }
+        });
+        document.getElementById("avg").innerText = zbir;
+        console.log(cellValues);
+      }
+      function formatPhone() {
+        var phone = document.getElementById("phone").value;
+        if (phone[0] == "0") {
+          var p = parseInt(phone);
+          var r =
+            "0" +
+            parseInt(p / 1000000) +
+            "/" +
+            parseInt((p / 1000) % 1000) +
+            "-" +
+            parseInt(p % 1000);
+          console.log(r);
+          return r;
+        } else {
+          var p = parseInt(phone);
+          var r =
+            parseInt(p / 1000000) +
+            "/" +
+            parseInt((p / 1000) % 1000) +
+            "-" +
+            parseInt(p % 1000);
+          console.log(r);
+          return r;
+        }
+      }
+      function green(x){
+        x.parentNode.parentNode.style.backgroundColor = "lightgreen";
+      }
+      function revert(x) {
+
+        var cells = x.parentNode.parentNode.childNodes;
+        var lista = document.getElementById("lista");
+        var li = document.createElement("li");
+        li.innerText = cells[1].textContent + " - grade" + " " + cells[3].textContent;
+        lista.appendChild(li);
+
+        x.parentNode.parentNode.remove();
+        updateAvgGrade()
+
+        }
+      function importStudent() {
+        var tableref = document.getElementById("contains").getElementsByTagName("tbody")[0];
+
+        var name = document.getElementById("name").value;
+        var index = document.getElementById("index").value;
+        var grade = document.querySelector('input[name="rad"]:checked').value;
+        var ses = document.getElementById("selection");
+        var session = ses.options[ses.selectedIndex].text;
+        //console.log(session)
+
+        var button1 = document.createElement("button");
+        button1.type = "button";
+        button1.setAttribute('onClick', "green(this)");
+        button1.addEventListener("click", function () {
+            button1.disabled = true;
+            button2.disabled = true;
+        });
+
+        var button2 = document.createElement("button");
+        button2.setAttribute("onClick", "revert(this)");
+
+
+        phone = formatPhone();
+        if(checkIfFilled(name, index, phone)){
+            var newRow = tableref.insertRow(tableref.rows.length);
+            var newcell0 = newRow.insertCell(0);
+            var newcell1 = newRow.insertCell(1);
+            var newcell2 = newRow.insertCell(2);
+            var newcell3 = newRow.insertCell(3);
+            var newcell4 = newRow.insertCell(4);
+            var newcell5 = newRow.insertCell(5);
+    
+            newcell0.innerHTML = name;
+            newcell1.innerHTML = index;
+            newcell2.innerHTML = phone;
+            newcell3.innerHTML = grade;
+            newcell4.innerHTML = session;
+            newcell5.appendChild(button1);
+            button1.innerHTML = "Confirm";
+            newcell5.appendChild(button2);
+            button2.innerHTML = "Revert";
+
+            updateAvgGrade();
+
+            document.getElementById("name").value = "";
+            document.getElementById("index").value = "";
+            document.getElementById("phone").value = "";
+            document.getElementById("selection").value = "January";
+        }
+
+      }
+    </script>
+  </body>
+</html>

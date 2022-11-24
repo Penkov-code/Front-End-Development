@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>About Me</title>
+  </head>
+  <body>
+    
+    <h1>About Me</h1>
+    <ul>
+      <li>Name: <span id="name"></span></li>
+      <li>Index: <span id="index"></span></li>
+      <li>Hometown: <span id="hometown"></span></li>
+    </ul>
+    <script>
+        var body = document.getElementsByTagName("body")[0];
+        body.style.fontFamily = "arial";
+        document.getElementById("name").textContent = "Ѓорѓи";
+        document.getElementById("index").textContent = "186029";
+        document.getElementById("hometown").textContent = "Неготино";
+        var color = document.getElementsByTagName("li");
+        for(var i = 0; i< color.length; i++){
+            color[i].style.background = "rgb(255,0,0)";
+        }
+    </script>
+  </body>
+</html>

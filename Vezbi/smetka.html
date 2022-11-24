@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .star{
+            background-color: red;
+            width: 250px;
+        }
+        .mlad{
+            background-color: lightgreen;
+            width: 250px;
+        }
+        #container > * {
+            display: inline-block;
+            border-width:2px;
+            border-style:solid;
+            border-color:black;
+            margin-right: 5px;
+        }
+    </style>
+    <script>
+        function checkRegistracija(reg){
+            var regex = /^[A-Z][A-Z]-[0-9][0-9][0-9][0-9]-[A-Z][A-Z]$/
+            if(reg.length!=10){
+                return false
+            }
+            if(regex.test(reg)){
+                return true
+            }
+            else{
+                return false
+            }
+        }
+        function checkGolden(reg){
+            var str = reg.split("-")
+            var newStr = str[1].split("")
+            if(newStr[0] == newStr[1] == newStr[2] == newStr[3])
+            {
+                return true
+            }
+            else{
+                return false
+            }
+        }
+        function brishi(dugme){
+            var x = dugme.parentNode
+            var len = document.getElementById("addC").innerText
+            console.log(len)
+            document.getElementById("addC").innerText = parseInt(len-1)
+            x.remove()
+        }
+        function addSmetka(){
+            var name = document.getElementById('name').value
+            var surname = document.getElementById('surname').value
+            var reg = document.getElementById("reg").value
+            var age = document.getElementById("age").value
+            var accident = document.querySelector('input[name="ne"]:checked').value
+            var price = 3000
+            var acc
+            var len1 = document.getElementsByClassName("star").length
+            var len2 = document.getElementsByClassName('mlad').length
+            document.getElementById('addC').innerText = parseInt(len1+len2+1)
+            if(accident == 'ne'){
+                acc = "Нема"
+            }
+            else{
+                acc = "Има"
+                price = price + 500
+            }
+            if(checkGolden(reg))
+                {
+                    price = price + 1000
+                }
+            if(name == '' || surname == '' || reg == '' || age == '' || (checkRegistracija(reg) == false)){
+                alert("Vnesi vrednosti!!")
+            }
+            else{
+                var button1 = document.createElement("button")
+                button1.type = "button"
+                button1.innerHTML = "Confirm"
+                button1.addEventListener("click", function () {
+                button1.disabled = true;
+                button2.disabled = true;
+                })
+                var button2 = document.createElement("button")
+                button2.type = 'button'
+                button2.innerHTML = "Delete"
+                button2.setAttribute("onClick","brishi(this)")
+
+                var actualDiv = document.getElementById("container")
+                var container = document.createElement("div")
+                
+                container.innerHTML += "<div class='added'><p>"+ name + " " + 
+                    surname + "</p><p>"+ reg + "</p><p>Сообраќајки: "+ acc + 
+                        "</p><p>Старост на возило: "+ age + "</p><p>За плаќање"+ price + "</p></br></div>"
+                container.append(button1)
+                container.append(button2)
+                if(age>30){
+                    container.setAttribute("class","star")
+                    actualDiv.append(container)
+                }
+                else{
+                    container.setAttribute("class","mlad")
+                    actualDiv.append(container)
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <p>Име: <input type="text" id="name" value="Gjorgji" /></p>
+    <p>Презиме: <input type="text" id="surname" value="Penkov" /></p>
+    <p>Регистарска таблица: <input type="text" id="reg" value="AB-1234-QW"></p>
+    <p>Години на старост: <input type="text" id="age" value="23" /></p>
+    <p>Сообраќајна незгода: <input type="radio" name="ne" value="da" checked>da <input type="radio" name="ne" id="ne" value="ne">ne</p>
+    <button type="button" onclick="addSmetka()">Генерирај сметка</button>
+
+    <h2>Сметки</h2>
+    <div id="counter">Вкупно сметки за плаќање: <p id="addC"></p></div>
+    <div id="container">
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        function createDiv(){
+            var info = document.getElementById("vlez").value;
+            var str = info.split(",");
+            console.log(str)
+            var color = str[0];
+            var wid = str[1];
+            var hgt = str[2];
+            var name = str[3];
+            console.log(color,wid,hgt,name)
+
+            var test = document.createElement("div");
+            var aoe = document.getElementById('container');
+            aoe.style.width = '15000px';
+            aoe.style.height = '421412px';
+            test.style.backgroundColor = color;
+            test.innerText = name;
+            test.style.width = wid + "px";
+            test.style.height = hgt + "px";
+            //ll.style.backgroundColor = color;
+            aoe.appendChild(test);
+
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="vlez"> <button type="button" id="btn" onclick="createDiv()">Постави</button>
+    <div id="container">
+    </div>
+    
+</body>
+</html>
+

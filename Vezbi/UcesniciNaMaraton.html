@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        p {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Учесници на маратон:</h1>
+    <p>Име:     <input type="text" name="" value="gorgi" id="name"></p>
+    <p>Презиме: <input type="text" name="" value = "penkov" id="surname"></p>
+    <p>Години:  <input type="text" name="" value = "19" id="age"></p>
+    <p>Код:     <input type="text" name="" value = "186029" id="code"></p>
+    <p>Пол: <select name="" id="selection">
+        <option value="male">Машко</option>
+        <option value="female">Женско</option>
+        <option value="other">Друго</option>
+    </select></p>
+    <button onclick="addContestant()">Add Contestant</button>
+
+    <table id="container">
+        <thead>
+            <th>Име</th>
+            <th>Презиме</th>
+            <th>Таг</th>
+            <th>Опции</th>
+            <tbody>
+
+            </tbody>
+        </thead>
+    </table>
+
+    <div>Vkupno potvrdeni ucesnici: 
+        <p id = "vkupno"></p>
+    </div>
+
+    <script>
+        var countContestants = 0
+        function confirm(btn){
+            btn.parentNode.parentNode.style.backgroundColor = "lightgreen";
+            countContestants = parseInt(countContestants) + 1
+            console.log(countContestants)
+            var edit = document.getElementById("vkupno")
+            edit.innerText = countContestants
+        }
+        function red(x){
+            x.parentNode.parentNode.style.backgroundColor = "red";
+        }
+        function brishi(x){
+            x.parentNode.parentNode.remove();
+        }
+        function checkAge(age){
+            if(age>=18){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        function addContestant(){
+            var name = document.getElementById("name").value;
+            var surname = document.getElementById("surname").value;
+            var age = document.getElementById("age").value;
+            var code = document.getElementById("code").value;
+            var sex = document.getElementById("selection").value;
+            var button1 = document.createElement("button");
+            button1.type = "button";
+            var button2 = document.createElement("button");
+            
+                
+
+            var tableref = document.getElementById("container").getElementsByTagName("tbody")[0]
+
+            var newRow = tableref.insertRow(tableref.rows.length)
+            var newcell0 = newRow.insertCell(0);
+            var newcell1 = newRow.insertCell(1);
+            var newcell2 = newRow.insertCell(2);
+            var newcell3 = newRow.insertCell(3);
+
+            if(checkAge(age)){
+                
+                button1.setAttribute('onClick','confirm(this)');
+                button1.addEventListener('click', function(){
+                    button1.disabled = true;
+                    button2.disabled = true;
+                })
+                
+                button2.setAttribute("onClick", "brishi(this)");
+            }
+            else{
+                button1.disabled = true;
+                button2.disabled = true;
+                newRow.style.backgroundColor  = 'red';
+            }   
+
+            newcell0.innerHTML = name;
+            newcell1.innerHTML = surname;
+            newcell2.innerHTML = age;
+            newcell3.appendChild(button1);
+            button1.innerHTML = "Confirm";
+            newcell3.appendChild(button2);
+            button2.innerHTML = "Remove";
+
+        }
+    </script>
+</body>
+</html>

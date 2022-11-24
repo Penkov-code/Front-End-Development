@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input"> <button type="button" id="left" onclick="moveLeft()"><</button> 
+    <button type="button" id="right" onclick="moveRight()">></button> 
+    <button type="button" id="flip" onclick="flip()">Flip</button> 
+    <button type="button" id="store" onclick="store()">Store</button> 
+    <button type="button" id="check" onclick="check()">Check</button>
+    <ul id="list">
+
+    </ul>
+    <script>
+        function moveRight(){
+            var num = document.getElementById("input").value;
+            var strfirst = num.slice(0,9);
+            var strlast = num.slice(-1);
+            var str = strlast.concat(strfirst);
+            console.log(str);
+            document.getElementById("input").value = str;
+        }
+        function moveLeft(){
+            var num = document.getElementById("input").value;
+            var strfirst = num.slice(0,1);
+            var strlast = num.slice(1,10);
+            var str = strlast.concat(strfirst);
+            console.log(str);
+            document.getElementById("input").value = str;
+        }
+        function flip(){
+            var num = document.getElementById("input").value;
+            var splitstring = num.split("");
+            var reversestring = splitstring.reverse();
+            var joinstring = reversestring.join("");
+            document.getElementById("input").value = joinstring;
+        }
+        function store(){
+            var num = document.getElementById("input").value;
+            var ul = document.getElementById("list");
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(num));
+            ul.appendChild(li);
+        }
+        function check(){
+            var num = document.getElementById("input").value;
+            var str = num.split("");
+            var test = 0;
+            console.log(num.len)
+            for(var i=0;i<10;i++){
+                if(parseInt(str[i])%2==0){
+                    test = test + 1;
+                }
+            }
+            if(test>=2){
+                var ul = document.getElementById("list");
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode("Perfekten"));
+                ul.appendChild(li);
+            }
+            else{
+                console.log("XD")
+            }
+        }
+    </script>
+</body>
+</html>
